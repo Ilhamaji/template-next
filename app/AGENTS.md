@@ -26,7 +26,7 @@ Load `docs/ARCHITECTURE.md` only if you need the full picture.
 
 ## Checklist before finishing
 
-- [ ] `npx tsc --noEmit` passes (route prop types are generated — a build may be required first)
+- [ ] `npm run typecheck` passes (route prop types are generated first — never run `tsc` alone on a fresh clone)
 - [ ] `npm run build` passes
 - [ ] New route has appropriate `loading.tsx` / `error.tsx` / `not-found.tsx` where user-facing
 - [ ] Metadata exported where the page is indexable

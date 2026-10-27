@@ -23,7 +23,7 @@ Read it first, then load only the files you actually need.
 3. **Stay inside the architecture.** Route files live in `app/`, reusable UI in `components/`, logic in `lib/`, shared types in `types/`. See `docs/ARCHITECTURE.md`.
 4. **No new dependencies without a reason.** Ask before installing a package. Prefer the platform and existing deps.
 5. **Type-safe, no `any`.** No `@ts-ignore` without a comment explaining why.
-6. **Verify your work.** Run `npm run lint` and `npm run build` (or `npx tsc --noEmit`) before claiming a task is done.
+6. **Verify your work.** Run `npm run lint` and `npm run build` (or `npm run typecheck` for fast feedback) before claiming a task is done.
 7. **Small diffs.** Change only what the task requires. Do not reformat, rename, or refactor unrelated code.
 
 ---
@@ -71,8 +71,8 @@ Update this table **when you add a new top-level folder or introduce a new area 
 | `scripts/verify-skills.cjs` | Integrity checker: compares every skill against its upstream repo, flags empty folders, missing files, broken imports, plus portability (pointer files, Hermes bridge). | After installing or updating skills; before trusting a skill |
 | `scripts/sync-hermes.cjs` | Generates `.hermes/skills/` pointer bridge so Hermes Agent can discover the skills. | After adding/removing/renaming a skill |
 | `.hermes/skills/` | **Generated** pointer files for Hermes Agent. Never hand-edit — run `npm run sync:hermes`. | Never directly; Hermes reads it |
-| `.agents/skills/security-audit/` | Cloudflare's multi-phase security audit skill (vendored, MIT, third-party). Invoke via the harness `skill` tool, not by reading files. Excluded from ESLint. **Windows caveat:** `validate-findings.cjs` cannot run here (no `O_NOFOLLOW`/`O_NONBLOCK`) — so guidance/focused reviews work, full audits do not. | A security question, vulnerability review, or explicit audit/pen-test request |
-| `.agents/skills/` (frontend set) | 10 third-party frontend/design skills. **Follow the mandatory 3-step workflow in §4.1** — Step 1 `antislop` always, Step 2 exactly one direction skill, Step 3 optional. | Any UI, styling, layout, copy, or design-review work |
+| `.agents/skills/security-audit/` | Cloudflare's multi-phase security audit skill (vendored, MIT, third-party). Invoke via the harness `skill` tool, not by reading files. Excluded from ESLint. **Platform note:** `validate-findings.cjs` requires POSIX `O_NOFOLLOW`/`O_NONBLOCK` and fails closed on Windows, so guidance and focused reviews work there but full audits do not. | A security question, vulnerability review, or explicit audit/pen-test request |
+| `.agents/skills/` (frontend set) | 11 third-party frontend/design skills. **Follow the mandatory 3-step workflow in §4.1** — Step 1 `antislop` always, Step 2 exactly one direction skill, Step 3 optional. | Any UI, styling, layout, copy, or design-review work |
 | `AGENTS.md` (nested) | Folder-local rules that override/supplement this file. | Before editing files in that folder |
 
 > Folders marked with a nested `AGENTS.md` are **sources of truth for their scope**. Local rules win over this file.
@@ -170,7 +170,7 @@ Step 3  ui-ux-pro-max     optional  ← only if no brand guidelines
 
 ### 4.2 Installing & updating skills — read before you run `npx skills`
 
-**`npx skills add` is unreliable on this machine.** Long installs get cut off, leaving a folder that *looks* installed but is empty or missing files. Four separate installs were truncated this way, including one that silently dropped 33 of 62 files. A truncated skill still appears in the skill list, so the failure is invisible until you try to use it.
+**`npx skills add` can silently produce truncated installs.** A long install may be interrupted, leaving a folder that *looks* installed but is empty or missing files. A truncated skill still appears in the skill list, so the failure is invisible until you try to use it.
 
 Rules:
 
@@ -322,15 +322,15 @@ npm run dev      # dev server (also regenerates the nextjs-agent-rules block abo
 npm run build    # production build — must pass before "done"
 npm run start    # serve production build
 npm run lint     # ESLint
-npx tsc --noEmit # type check only (fast feedback)
+npm run typecheck # type check (generates route types first)
 
-npm run verify:skills          # cek integritas skill vs upstream (butuh jaringan)
-npm run verify:skills:offline  # hanya cek lokal, tanpa jaringan
-npm run sync:hermes            # regenerate bridge .hermes/skills/
-npm run sync:hermes:check      # exit 1 kalau bridge tidak sinkron
+npm run verify:skills          # skill integrity vs upstream (needs network)
+npm run verify:skills:offline  # local checks only, no network
+npm run sync:hermes            # regenerate the .hermes/skills/ bridge
+npm run sync:hermes:check      # exit 1 if the bridge is out of sync
 ```
 
-**`verify:skills`** — wajib dijalankan setelah menambah/memperbarui skill. Install skill yang berjalan lama bisa **terpotong** dan menghasilkan folder yang terdaftar tapi tidak lengkap. Skill seperti itu tetap muncul di daftar tapi tidak bisa dipakai. Script ini membandingkan setiap skill dengan repo upstream-nya, mendeteksi folder kosong, file hilang, dan import yang rusak. Exit code 1 = ada masalah.
+**`verify:skills`** — run after adding or updating any skill. A long install can be **truncated**, producing a folder that is registered but incomplete: it still appears in the skill list yet cannot run. The script compares every skill against its upstream repo and detects empty folders, missing files, broken imports, and pointer/bridge drift. Exit code 1 means a problem.
 
 ---
 
@@ -339,7 +339,7 @@ npm run sync:hermes:check      # exit 1 kalau bridge tidak sinkron
 A task is complete when **all** are true:
 
 - [ ] The requested behaviour works (`npm run dev` smoke test if UI/route changes)
-- [ ] `npx tsc --noEmit` passes
+- [ ] `npm run typecheck` passes
 - [ ] `npm run lint` passes
 - [ ] `npm run build` passes for anything touching routes, config, or data fetching
 - [ ] **Frontend work only:** §4.1 workflow followed — `antislop` loaded, **exactly one** direction skill (A/B/C) chosen, not a mix

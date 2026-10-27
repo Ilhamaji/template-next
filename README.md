@@ -7,10 +7,10 @@ A Next.js starter pre-wired for **AI agents**: clear entrypoint, scoped rules, p
 ## Quick start
 
 ```bash
-npm run dev      # http://localhost:3000
-npm run build    # production build
-npm run lint     # ESLint
-npx tsc --noEmit # type check
+npm run dev       # http://localhost:3000
+npm run build     # production build
+npm run lint      # ESLint
+npm run typecheck # next typegen + tsc --noEmit
 
 # agent tooling
 npm run verify:skills          # integrity + portability + Hermes bridge
@@ -18,6 +18,8 @@ npm run verify:skills:offline  # same, no network
 npm run sync:hermes            # regenerate .hermes/skills/ bridge
 npm run sync:hermes:check      # exit 1 if bridge drifted
 ```
+
+> `npx tsc --noEmit` alone fails on a fresh clone — Next generates route types first. Always use `npm run typecheck`.
 
 ## Why this template
 
@@ -41,8 +43,11 @@ AGENTS.md                  # ← agent entrypoint (start here) — SOURCE OF TRU
 CLAUDE.md                  # pointer for Claude Code
 GEMINI.md                  # pointer for Gemini CLI
 .github/copilot-instructions.md  # pointer for GitHub Copilot
+.github/workflows/ci.yml   # CI: lint, typecheck, build, verify skills
 .cursor/rules/agents.mdc   # pointer for Cursor
 .windsurfrules             # pointer for Windsurf
+LICENSE                    # MIT (third-party skills keep their own)
+.nvmrc                     # Node 24
 docs/
   ARCHITECTURE.md          # layering, server vs client, feature checklist
   CONVENTIONS.md           # TS, naming, React, Tailwind, git
@@ -55,14 +60,16 @@ docs/
 scripts/
   verify-skills.cjs        # integrity + portability + bridge checker
   sync-hermes.cjs          # generates .hermes/skills/ pointers
-app/AGENTS.md              # App Router rules
-components/AGENTS.md       # UI rules
-lib/AGENTS.md              # logic rules
-app/                       # routes
-components/ui/             # primitives
-lib/                       # framework-agnostic logic
-types/                     # shared types
-hooks/                     # client hooks
+app/
+  AGENTS.md                # App Router rules
+  page.tsx                 # starter page
+  api/health/route.ts      # example route handler
+components/
+  AGENTS.md                # UI rules
+  ui/button.tsx            # example primitive
+lib/                       # framework-agnostic logic (utils.ts)
+types/api.ts               # shared types
+hooks/use-media-query.ts   # example client hook
 ```
 
 ## Works with any agent
