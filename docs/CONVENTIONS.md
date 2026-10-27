@@ -52,6 +52,9 @@ Before writing any UI code, follow the 3-step workflow in `AGENTS.md` §4.1:
 - Extract a component before extracting a `@apply` class.
 - Use design tokens from `app/globals.css` (`--color-*`, `--font-*`) instead of raw hex.
 - Conditional classes: use a `cn()` helper in `lib/utils.ts`, never string concatenation with ternaries scattered inline.
+  `cn()` combines `clsx` (conditional values) with `tailwind-merge` (last-wins conflict resolution), so a caller's
+  `className` overrides a component's defaults instead of emitting duplicate utilities like `px-2 px-4`.
+  Behavior is covered by `npm run check:cn`.
 - Mobile-first: base styles first, then `sm:` / `md:` / `lg:`.
 
 ## Data & errors

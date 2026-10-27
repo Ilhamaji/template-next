@@ -11,6 +11,7 @@ npm run dev       # http://localhost:3000
 npm run build     # production build
 npm run lint      # ESLint
 npm run typecheck # next typegen + tsc --noEmit
+npm run check:cn  # cn() conflict-resolution behavior
 
 # agent tooling
 npm run verify:skills          # integrity + portability + Hermes bridge
@@ -66,8 +67,9 @@ app/
   api/health/route.ts      # example route handler
 components/
   AGENTS.md                # UI rules
-  ui/button.tsx            # example primitive
-lib/                       # framework-agnostic logic (utils.ts)
+  ui/button.tsx            # example primitive (uses cn())
+lib/
+  utils.ts                 # cn() = clsx + tailwind-merge
 types/api.ts               # shared types
 hooks/use-media-query.ts   # example client hook
 ```
