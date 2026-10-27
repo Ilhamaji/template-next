@@ -23,6 +23,8 @@ npm run sync:hermes:check      # exit 1 if bridge drifted
 
 > `npx tsc --noEmit` alone fails on a fresh clone — Next generates route types first. Always use `npm run typecheck`.
 
+Fonts are self-hosted from `app/fonts/` (Geist, SIL OFL) via `next/font/local`. No request is made to Google Fonts at build or runtime, so the project builds on restricted networks.
+
 ## Why this template
 
 | Problem | Solution here |
@@ -65,6 +67,8 @@ scripts/
 app/
   AGENTS.md                # App Router rules
   page.tsx                 # starter page
+  layout.tsx               # root layout, self-hosted fonts
+  fonts/                   # Geist TTF + OFL license (no Google Fonts)
   api/health/route.ts      # example route handler
 components/
   AGENTS.md                # UI rules

@@ -23,6 +23,7 @@ Load `docs/ARCHITECTURE.md` only if you need the full picture.
 - Dynamic params: type them with the generated helpers (`PageProps<"/route">`, `LayoutProps<"/">`) — do not hand-roll `{ params: { id: string } }`.
 - Keep route segments `kebab-case`.
 - Respect `cacheComponents: true` and `partialPrefetching: true` in `next.config.ts` — read the caching docs before adding data fetching or `fetch` options.
+- **Fonts are self-hosted** via `next/font/local` from `app/fonts/`. Do not add `next/font/google` — it requires network access at build time. To change the font, drop the file into `app/fonts/`, update `src` in `layout.tsx`, and keep the `variable` names in sync with `globals.css`.
 
 ## Checklist before finishing
 

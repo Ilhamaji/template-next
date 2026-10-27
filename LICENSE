@@ -32,3 +32,6 @@ Each retains its own license, included in its own folder:
   ui-ux-pro-max          see LICENSE (nextlevelbuilder)
   web-design-guidelines  MIT        vercel-labs/agent-skills
   security-audit         MIT        cloudflare/security-audit-skill
+
+Fonts in app/fonts/ (Geist) are licensed under the SIL Open Font License 1.1.
+See app/fonts/OFL.txt. Not covered by the MIT license above.

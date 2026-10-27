@@ -1,15 +1,30 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = Geist({
+/**
+ * Self-hosted fonts — no network access needed at build or runtime.
+ * Files live in app/fonts/ under the SIL Open Font License (see OFL.txt).
+ *
+ * To swap in a brand font: drop the .ttf/.woff2 files into app/fonts/,
+ * update the `src` paths below, and keep `variable` names in sync with
+ * app/globals.css.
+ */
+const geistSans = localFont({
+  src: [
+    { path: "./fonts/Geist-Regular.ttf", weight: "400", style: "normal" },
+    { path: "./fonts/Geist-Medium.ttf", weight: "500", style: "normal" },
+  ],
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  display: "swap",
+  fallback: ["system-ui", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
 });
 
-const geistMono = Geist_Mono({
+const geistMono = localFont({
+  src: [{ path: "./fonts/GeistMono-Regular.ttf", weight: "400", style: "normal" }],
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  display: "swap",
+  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
 });
 
 export const metadata: Metadata = {
