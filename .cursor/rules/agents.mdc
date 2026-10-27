@@ -1,0 +1,19 @@
+---
+description: Next.js 16 template — agent rules
+alwaysApply: true
+---
+
+# Agent rules
+
+Read `AGENTS.md` at the repository root first. It is the single source of truth.
+
+Then, based on the folder you are editing, read the matching nested file:
+
+| Folder | Rules file |
+|---|---|
+| `app/` | `app/AGENTS.md` |
+| `components/` | `components/AGENTS.md` |
+| `lib/` | `lib/AGENTS.md` |
+
+Documentation: `docs/ARCHITECTURE.md`, `docs/CONVENTIONS.md`, `docs/DECISIONS.md`.
+Skills: `.agents/skills/` — scan `SKILL.md` frontmatter descriptions, load on demand.

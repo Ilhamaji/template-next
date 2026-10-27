@@ -1,0 +1,7 @@
+# Agent instructions
+
+Read [`AGENTS.md`](./AGENTS.md) first — single source of truth for all agents.
+
+Folder rules: `app/AGENTS.md`, `components/AGENTS.md`, `lib/AGENTS.md`.
+Docs: `docs/ARCHITECTURE.md`, `docs/CONVENTIONS.md`, `docs/DECISIONS.md`.
+Skills: `.agents/skills/` — scan `SKILL.md` frontmatter `description`, load on demand.
