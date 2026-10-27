@@ -29,4 +29,14 @@ describe("Button", () => {
     render(<Button disabled>Disabled</Button>);
     expect(screen.getByRole("button")).toBeDisabled();
   });
+
+  it("defaults to type=button so it never submits a form by accident", () => {
+    render(<Button>Cancel</Button>);
+    expect(screen.getByRole("button")).toHaveAttribute("type", "button");
+  });
+
+  it("allows opting into a submit button", () => {
+    render(<Button type="submit">Save</Button>);
+    expect(screen.getByRole("button")).toHaveAttribute("type", "submit");
+  });
 });

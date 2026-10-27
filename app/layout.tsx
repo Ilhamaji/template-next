@@ -14,6 +14,7 @@ const geistSans = localFont({
   src: [
     { path: "./fonts/Geist-Regular.ttf", weight: "400", style: "normal" },
     { path: "./fonts/Geist-Medium.ttf", weight: "500", style: "normal" },
+    { path: "./fonts/Geist-SemiBold.ttf", weight: "600", style: "normal" },
   ],
   variable: "--font-geist-sans",
   display: "swap",

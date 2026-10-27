@@ -47,7 +47,7 @@ AGENTS.md                  # ← agent entrypoint (start here) — SOURCE OF TRU
 CLAUDE.md                  # pointer for Claude Code
 GEMINI.md                  # pointer for Gemini CLI
 .github/copilot-instructions.md  # pointer for GitHub Copilot
-.github/workflows/ci.yml   # CI: lint, typecheck, build, verify skills
+.github/workflows/ci.yml   # CI: lint, typecheck, test, build, verify skills
 .cursor/rules/agents.mdc   # pointer for Cursor
 .windsurfrules             # pointer for Windsurf
 LICENSE                    # MIT (third-party skills keep their own)
