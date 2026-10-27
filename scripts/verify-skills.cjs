@@ -154,7 +154,11 @@ function checkFrontmatter(skillDir, folderName) {
   for (const line of fm.split(/\r?\n/)) {
     if (/^\s/.test(line)) continue; // nested / lanjutan — bukan field top-level
     const m = line.match(/^([A-Za-z][A-Za-z0-9_-]*):/);
-    if (m && !KNOWN.has(m[1])) warnings.push(`field frontmatter tidak dikenal spec: "${m[1]}"`);
+    if (m && !KNOWN.has(m[1])) {
+      // Bukan kesalahan kita bila file berasal dari upstream (vendored). Tandai supaya
+      // jelas ini pelanggaran spec di pihak ketiga, bukan sesuatu yang harus diperbaiki lokal.
+      warnings.push(`upstream melanggar spec: field "${m[1]}" tidak ada di agentskills.io (abaikan — file vendored)`);
+    }
   }
 
   if (errors.length) return { ok: false, errors, warnings };
