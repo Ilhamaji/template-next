@@ -183,6 +183,42 @@ Rules:
    Then delete the clone and verify again.
 3. **Delete the broken folder before reinstalling.** The installer will otherwise write into a half-created directory tree.
 
+### 4.3 Adding or changing a skill — required sequence
+
+Run these **in order**. Steps 2 and 3 are not optional; skipping them is how broken skill states reach the remote.
+
+```bash
+# 1. Install or edit the skill
+npx skills add <owner>/<repo> --copy -y
+#    …or create your own under .agents/skills/<name>/SKILL.md
+
+# 2. Verify integrity — MUST pass (exit 0) before continuing
+npm run verify:skills
+
+# 3. Regenerate the Hermes bridge — MUST run after any add/remove/rename
+npm run sync:hermes
+
+# 4. Re-verify: now checks bridge sync too
+npm run verify:skills
+
+# 5. Commit + push
+git add -A
+git commit -m "feat(skills): add <name>"
+git push
+```
+
+**Why each step matters:**
+
+| Step | Skipping it causes |
+|---|---|
+| `verify:skills` (2) | A truncated skill gets committed — it looks installed but cannot run |
+| `sync:hermes` (3) | Hermes silently loses the new skill; nothing reports it until someone uses Hermes |
+| `verify:skills` (4) | Bridge drift goes unnoticed; `verify:skills` fails on the next run anyway |
+
+**A skill is not "added" until steps 2–4 pass.** If step 2 fails, fix it — do not proceed to commit.
+
+For an SKILL.md you author yourself, the spec rules are: `name` must equal the folder name, lowercase `[a-z0-9-]`, ≤64 chars; `description` ≤1024 chars and must say **when** to use it (see §4).
+
 **Lockfile state — do not assume `npx skills update` covers everything.** `skills-lock.json` tracks only 8 of the 12 skills: the six `antislop*`, `frontend-design`, and `security-audit`. These four are **not** tracked and will never be updated by the CLI:
 
 | Skill | How it got here | To update |
@@ -307,6 +343,7 @@ A task is complete when **all** are true:
 - [ ] `npm run lint` passes
 - [ ] `npm run build` passes for anything touching routes, config, or data fetching
 - [ ] **Frontend work only:** §4.1 workflow followed — `antislop` loaded, **exactly one** direction skill (A/B/C) chosen, not a mix
+- [ ] **Skill changes only:** §4.3 sequence completed — `npm run verify:skills` passes **and** `npm run sync:hermes` run
 - [ ] No unrelated files modified
 - [ ] New patterns documented in `docs/CONVENTIONS.md` or the relevant nested `AGENTS.md`
 - [ ] New top-level folder added to the **Index map** in this file
