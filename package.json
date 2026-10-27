@@ -12,7 +12,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
-    "check:cn": "node --experimental-strip-types scripts/check-cn.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "verify:skills": "node scripts/verify-skills.cjs",
     "verify:skills:offline": "node scripts/verify-skills.cjs --offline",
     "sync:hermes": "node scripts/sync-hermes.cjs",
@@ -27,12 +28,18 @@
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
-    "@types/node": "^20",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^22.20.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^5.2.0",
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
+    "jsdom": "^30.1.3",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^5.0.5"
   }
 }

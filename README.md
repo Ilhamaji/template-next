@@ -11,7 +11,8 @@ npm run dev       # http://localhost:3000
 npm run build     # production build
 npm run lint      # ESLint
 npm run typecheck # next typegen + tsc --noEmit
-npm run check:cn  # cn() conflict-resolution behavior
+npm run test      # Vitest (run once)
+npm run test:watch # Vitest in watch mode
 
 # agent tooling
 npm run verify:skills          # integrity + portability + Hermes bridge
@@ -68,8 +69,10 @@ app/
 components/
   AGENTS.md                # UI rules
   ui/button.tsx            # example primitive (uses cn())
+  ui/button.test.tsx       # component test
 lib/
   utils.ts                 # cn() = clsx + tailwind-merge
+  utils.test.ts            # unit test
 types/api.ts               # shared types
 hooks/use-media-query.ts   # example client hook
 ```

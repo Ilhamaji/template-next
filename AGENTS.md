@@ -323,6 +323,8 @@ npm run build    # production build — must pass before "done"
 npm run start    # serve production build
 npm run lint     # ESLint
 npm run typecheck # type check (generates route types first)
+npm run test      # Vitest (run once)
+npm run test:watch # Vitest in watch mode
 
 npm run verify:skills          # skill integrity vs upstream (needs network)
 npm run verify:skills:offline  # local checks only, no network
@@ -340,6 +342,7 @@ A task is complete when **all** are true:
 
 - [ ] The requested behaviour works (`npm run dev` smoke test if UI/route changes)
 - [ ] `npm run typecheck` passes
+- [ ] `npm run test` passes (add a test when you add logic or a component)
 - [ ] `npm run lint` passes
 - [ ] `npm run build` passes for anything touching routes, config, or data fetching
 - [ ] **Frontend work only:** §4.1 workflow followed — `antislop` loaded, **exactly one** direction skill (A/B/C) chosen, not a mix

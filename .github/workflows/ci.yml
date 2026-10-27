@@ -30,8 +30,8 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-      - name: Check cn() behavior
-        run: npm run check:cn
+      - name: Test
+        run: npm run test
 
       - name: Build
         run: npm run build
